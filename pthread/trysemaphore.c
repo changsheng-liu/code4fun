@@ -1,58 +1,50 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <pthread.h>
+#include <semaphore.h>
+
 
 #define BUFSIZE 10
 int buffer[BUFSIZE];
+sem_t produce_cnt;
+sem_t consume_cnt;
 int write_pt = 0;
 int read_pt = 0;
 int num = 0;
-pthread_mutex_t lock;// = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t prod;// = PTHREAD_COND_INITIALIZER;
-pthread_cond_t cons;// = PTHREAD_COND_INITIALIZER;
 
 void * produce(void * p) {
 	int i;
 	int r;
 	for (i = 0;i < 1000;i++) {
-		pthread_mutex_lock(&lock);
-		while (num == BUFSIZE) {
-			pthread_cond_wait(&cons, &lock);
-		}
+		sem_wait(&produce_cnt); 
 		buffer[write_pt] = i;
 		num++;
 		write_pt = (write_pt+1) % BUFSIZE;
 		printf("producer: add %d\n", i);
-		pthread_mutex_unlock(&lock);
-		pthread_cond_signal(&prod);
+		sem_post(&consume_cnt);
 	}
-//	pthread_exit(NULL);
+	pthread_exit(NULL);
 	return NULL;
 }
 
 void * consume(void * p) {
 	int i, readnum;
 	for (i = 0;i < 1000;i++) {
-		pthread_mutex_lock(&lock);
-		while (num == 0) {
-			pthread_cond_wait(&prod, &lock);
-		}
-		
+		sem_wait(&consume_cnt);		
 		readnum = buffer[read_pt];
 		num--;
 		read_pt = (write_pt+1) % BUFSIZE;
 		printf("consumer: remove %d\n", i);
 
-		pthread_mutex_unlock(&lock);
-		pthread_cond_signal(&cons);
+		sem_post(&produce_cnt);
 	}
 //	pthread_exit(NULL);
 	return NULL;
 }
 
 int main(int argc, char *argv[]) {
-	pthread_mutex_init(&lock, NULL);
-	pthread_cond_init(&prod, NULL);
-	pthread_cond_init(&cons, NULL);
+	sem_init(&produce_cnt, 0, BUFSIZE);
+	sem_init(&consume_cnt, 0, 0);
 	pthread_t producer, consumer;
 	int rc;
 	rc = pthread_create(&producer, NULL, produce, NULL);
@@ -65,11 +57,9 @@ int main(int argc, char *argv[]) {
 		printf("error!!!!");
 		_exit(-1);
 	}
-	pthread_join(producer, NULL);
-	pthread_join(consumer, NULL);
-	pthread_mutex_destroy(&lock);
-	pthread_cond_destroy(&cons);
-	pthread_cond_destroy(&prod);
-//	pthread_exit(NULL);
+//	pthread_join(producer, NULL);
+//	pthread_join(consumer, NULL);
+
+	pthread_exit(NULL);
 	return 0;
 }
