@@ -28,9 +28,9 @@ class Array_ {
         int[] arr3 = new int[]{19,20};
         
         int[][] arr4 = {{1,2,3},{4,5,6}};
-
+        System.out.println(arr4);
         int[][] multiArray = new int[2][3];
-
+        System.out.println(multiArray);
         MT[] e = new MT[2];
         e[0] = new MT(1);
         e[1] = new MT(4444);
