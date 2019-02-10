@@ -46,6 +46,7 @@ void dynArrayRemoveItem(struct dynArray * a, int idx) {
 	for(t = idx; t < a->occupied-1; t++) {
 		a->arrayList[t] = a->arrayList[t+1];
 	}
+	a->occupied--;
 }
 
 void destroyArray(struct dynArray * a) {
