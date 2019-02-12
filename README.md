@@ -15,9 +15,13 @@
 ### library usage
 
 - [Pthread and Semophare for multithreads](./pthread/)
+- [Dynamic Array](dynamicArray.c)
 
 ## Python
 
 ### basic data structure usage
 
+Jupyter: `jupyter notebook`
+
 - [Heap & Priority Queue](heap_.py)
+- [basic operations](./pythonIt.py)
