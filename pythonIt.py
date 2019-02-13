@@ -50,21 +50,65 @@ list(x for x in range(1,11) if x % 2 == 0)
 list(x+y for x in range(1,3) for y in range(7,15))
 L = {"X": "A", "Y":"B"}
 [k+"="+v for k,v in L.items()]
+dict_comp = {x:chr(65+x) for x in range(1, 11)}
+{x ** 3 for x in range(10) if x % 2 == 0}
 
 #%%
-#list generator --> not comprehension, create one by one
+# generator --> not comprehension, create one by one
+sum(x*2 for x in range(2))
+gen = (x*2 for x in range(2))
+for x in gen:
+    print(x)
+#######################
+mylist = ["a", "b", "c"]
+gen = (elem + "1" for elem in mylist)
+mylist.clear()
+print(mylist)
+for y in gen: print (y)
+def fib(max):
+    n, a, b = 0, 0, 1
+    while n < max:
+        yield b
+        a, b = b, a + b
+        n = n + 1
+    return 'done'
+for n in fib(6):
+    print(n)
 
 #%%
-# generator
-
-
-#%%
-# iterat / iterator
-
+# iterable / iterator
+#Iterable is an object, which one can iterate over. It generates an Iterator when passed to iter() method. Iterator is an object, which is used to iterate over an iterable object using __next__() method. Iterators have __next__() method, which returns the next item of the object.
+def iterable(obj): 
+    try: 
+        iter(obj) 
+        return True
+          
+    except TypeError: 
+        return False
+  
+# Driver Code      
+for element in [34, [4, 5], (4, 5), {"a":4}, "dfsdf", 4.5]:             
+    print(element, " is iterable : ", iterable(element)) 
 
 #%%
 #string related 
+title = "Monty Python's Flying Circus"
+title.find("python")
+t = ["a", "b", "c"]
+".".join(t)
+m = title.split(" ")
+title.lower()
+title.replace("Monty", "Sucker")
+"    strip is not trim    ".strip()
+#translate
+table = str.maketrans("cs", "kz")
+"this is a an incredibel test".translate(table)
+"this is a an incredibel test".replace("s", "z", -1) # not support multi replace
 
+b'ABC'.decode("ascii")
+b'\xe4\xb8\xad\xff'.decode('utf-8', errors='ignore')
+print('%.2f' % 3.1415926)
+'Hello, {0}, 成绩提升了 {1:.1f}%'.format('小明', 17.125)
 
 #%%
 #dict
@@ -139,6 +183,12 @@ else:
 
 #%%
 # basic function and operations 
+ord("a")
+chr(66)
+str(1)
+
+#%%
+# function basic 
 
 
 #%%
@@ -164,5 +214,6 @@ from functools import reduce
 #%% 
 #multi threading
 
-#%% 
-#basic methods
+
+#%%
+# inbuild module
