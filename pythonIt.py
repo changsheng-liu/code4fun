@@ -186,19 +186,100 @@ else:
 ord("a")
 chr(66)
 str(1)
+sum([1,2])
+# operator.add([1,2])
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+def by_name(t):
+    return t[0]
+L2 = sorted(L, key=by_name)
+print(L2)
+def by_score(t):
+    return t[1]
+L3 = sorted(L, key=by_score,reverse = True)
+print(L3)
 
 #%%
 # function basic 
-
+def hello(x):
+    pass
+def nothing(x, y):
+    return x , y
+m, n = nothing(1,2)
+def power(x, n = 2):
+    'default param can never be a changable varailable'
+    return x ** n
+power(2)
+power(2,3)
+def calc(*numbers):
+    sum = 0
+    for n in numbers:
+        sum += n **2
+    return sum
+calc(1,2,3)
+calc()
+calc(*[1,2,3])
+def keywords(**kw):
+    print(kw)
+keywords(name = "me")
+keywords(**{"name":"you"})
+# naming keyword param 命名关键词参数
+def person(name, age , * , city, gender):
+    print(name, age, city, gender)
+person("me", 11, city=  "SH", gender = "male")
+#or
+def person2(name, age , *arg , city, gender):
+    print(name, age, city, gender , arg) 
+person2("me", 11,22 , city=  "SH", gender = "male")
+def f2(a, b, c=0, *, d, **kw):
+    print('a =', a, 'b =', b, 'c =', c, 'd =', d, 'kw =', kw)
+args = (1, 2, 3)
+kw = {'d': 88, 'x': '#'}
+f2(*args, **kw)
 
 #%%
 #high-level functions
-def f(x):
-    return x*x
-r = map(f, [1,2,3,4,5,6])
-list(r)
+def add(x, y, f):
+    return f(x) + f(y)
+add(1,-2,abs)
 
+r = list(map(lambda x : x**2, [1,2,3,4,5,6]))
 from functools import reduce
+def fn(x, y):
+    return x*10 + y
+reduce(fn, [1,2,3,4,5])
+reduce(lambda x,y:x*10+y, [1,2,3,4,5,6])
+reduce(fn,r) # not work
+def char2num(s):
+    digits = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+    return digits[s]
+l = map(char2num, '13579')
+# print(list(l))
+reduce(fn, l)
+def _odd_iter():
+    n = 1
+    while True:
+        n = n + 2
+        yield n
+def _not_divisible(n):
+    return lambda x: x % n > 0
+def primes():
+    yield 2
+    it = _odd_iter() # 初始序列
+    while True:
+        n = next(it) # 返回序列的第一个数
+        yield n
+        it = filter(_not_divisible(n), it) # 构造新序列
+#filter is like a map, use a generator 
+
+# miao xuefeng suggest when do return function do not pass a for-loop value into it.
+
+#partial function is a higher use to fix part of args. 
+
+#%%
+#decorator
+# https://coolshell.cn/articles/11265.html
+# http://book.pythontips.com/en/latest/decorators.html#
+# I think i understand that and need to recheck when use
 
 #%%
 # OO Programing
@@ -209,7 +290,7 @@ from functools import reduce
 
 
 #%%
-#IO
+#IO / async IO
 
 #%% 
 #multi threading
