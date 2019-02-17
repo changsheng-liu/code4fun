@@ -30,14 +30,15 @@ int main(int argc, char* argv[])
         err();
     } 
     socklen_t len;
-    struct sockaddr_in src;
+    // struct sockaddr_in src;
     char buf[BUFF_LEN];
     char recv[BUFF_LEN];
     for( ; ; ) {
         while(fgets(buf, BUFF_LEN, stdin) != NULL){
             len = sizeof(ser_addr);
             sendto(client_fd, buf, BUFF_LEN, 0, (struct sockaddr*)&ser_addr, len);
-            recvfrom(client_fd, recv, BUFF_LEN, 0, (struct sockaddr*)&src, &len);
+            // recvfrom(client_fd, recv, BUFF_LEN, 0, (struct sockaddr*)&src, &len);
+            recvfrom(client_fd, recv, BUFF_LEN, 0, NULL, NULL);
             fputs(recv, stdout);
             bzero(recv, BUFF_LEN);
         }

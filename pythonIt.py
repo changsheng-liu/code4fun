@@ -288,13 +288,5 @@ def primes():
 #%% 
 # Handle error
 
-
-#%%
-#IO / async IO
-
-#%% 
-#multi threading
-
-
 #%%
 # inbuild module
