@@ -6,6 +6,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <time.h>
+#include <errno.h>
 
 #define BUFF_LEN 1024
 
@@ -29,19 +31,29 @@ int main(int argc, char* argv[])
     if(inet_aton("127.0.0.1", &ser_addr.sin_addr)<=0) { 
         err();
     } 
-    char str[100];
-    printf("port : %d \n", (int)ntohs(ser_addr.sin_port));
-	printf("ip : %s \n",inet_ntop(AF_INET,&ser_addr.sin_addr ,str, INET_ADDRSTRLEN));
     socklen_t len;
+
+
+    struct timeval tv;
+    tv.tv_sec = 7;
+    tv.tv_usec = 0;
+    setsockopt(client_fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+
+
     // struct sockaddr_in src;
     char buf[BUFF_LEN];
     char recv[BUFF_LEN];
+    int n; 
     for( ; ; ) {
         while(fgets(buf, BUFF_LEN, stdin) != NULL){
             len = sizeof(ser_addr);
+            
             sendto(client_fd, buf, BUFF_LEN, 0, (struct sockaddr*)&ser_addr, len);
             // recvfrom(client_fd, recv, BUFF_LEN, 0, (struct sockaddr*)&src, &len);
-            recvfrom(client_fd, recv, BUFF_LEN, 0, NULL, NULL);
+            if((n = recvfrom(client_fd, recv, BUFF_LEN, 0, NULL, NULL)) < 0) {
+                printf("err! %d, %s\n",errno ,strerror(errno));
+                continue;
+            }
             fputs(recv, stdout);
             bzero(recv, BUFF_LEN);
         }
