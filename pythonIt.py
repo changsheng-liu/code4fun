@@ -55,6 +55,8 @@ dict_comp = {x:chr(65+x) for x in range(1, 11)}
 
 #%%
 # generator --> not comprehension, create one by one
+
+
 sum(x*2 for x in range(2))
 gen = (x*2 for x in range(2))
 for x in gen:
@@ -74,6 +76,16 @@ def fib(max):
     return 'done'
 for n in fib(6):
     print(n)
+
+
+#%%
+#range 
+-1 in range(1000000000000)
+number = range(10)
+number.start
+number.stop
+number.step
+
 
 #%%
 # iterable / iterator

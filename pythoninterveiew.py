@@ -13,3 +13,12 @@ sorted(x.items(), key=lambda x:x[1])
 x = [1,2,3,4,5]
 import random
 random.shuffle(x)
+
+#%%
+list1 = [1,2,3]
+list2 = [3,4,5]
+set1 = set(list1)
+set2 = set(list2)
+print(set1 & set2)
+print(set1 ^ set2)
+print(set1 | set2)
