@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     bzero(&ser_addr, sizeof(ser_addr));
     ser_addr.sin_family = AF_INET;
     // ser_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-    ser_addr.sin_port = htons(atoi(argv[1]));  
+    ser_addr.sin_port = htons(0);  
     if(inet_aton("127.0.0.1", &ser_addr.sin_addr)<=0) { 
         err();
     } 
