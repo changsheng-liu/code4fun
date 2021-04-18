@@ -14,8 +14,8 @@ class HeapMe {
 		// 	}
 		// });
 		//
-		Queue<Integer> q = new PriorityQueue<>((a, b)->{return b-a;});
-
+		PriorityQueue<Integer> q = new PriorityQueue<>((a, b)->{return a-b;});
+		System.out.println(q.peek());
 		Random r = new Random();
 		for(int i = 0; i < 11; i++){
 			int e = r.nextInt(100);
@@ -24,6 +24,7 @@ class HeapMe {
 			System.out.print(" ");
 		}
 		System.out.println("");
+		System.out.println(q.peek());
 		for (int i = 0; i < 11 ; i++) {
 			Integer t = q.poll();
 			System.out.print(t.intValue());
